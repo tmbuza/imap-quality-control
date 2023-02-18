@@ -1,12 +1,10 @@
-# IMAP-PART{NO}: Title Goes Here
-
+# Preprocessing of FastQ Reads
 
 ---In Progress---
 
 <br> 
 
-## :tada: Related work
-> Here we show the IMAP Repos integrated with Snakemake and GitHub Actions!
+## Related work
 
 | Repo | Description | Summary |
 |-------------------------|---------------------------------------------------|-----------------|
