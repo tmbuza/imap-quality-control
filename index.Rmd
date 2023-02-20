@@ -1,8 +1,8 @@
 ---
-title:  "<big><u>IMAP-PART{NO}</u></big><br><br>Title Goes Here<br><br>"
+title:  "<big><u>IMAP-QC</u></big><br><br>Quality Control of Microbiome Sequence Reads<br><br>"
 subtitle: |
-  | ![](images/placeholder.png)<br>
-  | Integrated Microbiome Analysis Pipelines<br>( IMAP-PART{NO} ) <br><br><small>[Latest GitHub-Repo](https://github.com/tmbuza/{name}/)</small>
+  | ![](images/bkgd2.png)<br>
+  | Integrated Microbiome Analysis Pipelines<br>( IMAP-QC ) <br><br><small>[Latest GitHub-Repo](https://github.com/tmbuza/read-quality-control/)</small>
 date: |
   |  Updated on `r Sys.Date()`
 author: Teresia Mrema-Buza
@@ -18,7 +18,7 @@ mainfont:
 biblio-style: apalike
 email_address: "tmbuza@complexdatainsights.com"
 github_repo: "https://github.com/tmbuza/{name}"
-related_website: "https://complexdatainsights.com/microbiome-analysis/imap-part{NO}"
+related_website: "https://complexdatainsights.com/microbiome-analysis/imap-qc"
 description: |
   This repo provides integrated and highly curated solutions for reproducible research.
 ---
@@ -27,6 +27,7 @@ description: |
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(
@@ -77,7 +78,7 @@ library(schtools)
 - The snakemake is capable of automatically determining the dependencies between the rules and creates a dot-like DAG (Directed Acyclic Graph).
 
 <br><br>
-<img src="dags/rulegraph.svg">IMAP-PART3: Snakemake workflow
+<img src="dags/rulegraph.svg">Quality control snakemake workflow.
 
 <br><br>
 
@@ -88,14 +89,32 @@ library(schtools)
 
 <br><br><hr width=100%><br><br>
 
-# Main Subjects Starts here
+# Read Quality Control 
 
+## Raw reads
+![](results/qc/multiqc1/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg)
+
+<br><br>
+
+## Trimmed reads
+![](results/qc/multiqc2/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg)
+
+<br><br>
+
+## Decontaminated reads
+![](results/qc/multiqc2/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg)
+
+<br><br>
+
+## Processed read status
+
+![](images/qc_hist.svg)
 
 <br><br>
 
 
 ```{block, echo=TRUE}
-## Related work
+# Related work
 > Here we show the IMAP Repos integrated with Snakemake and GitHub Actions!
 
 | Repo | Description | Summary |

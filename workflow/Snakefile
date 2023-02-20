@@ -5,10 +5,67 @@ min_version("6.10.0")
 # Configuration file containing all user-specified settings
 configfile: "config/config.yaml"
 
+
+import os
+import csv
+import pandas as pd
+
+METADATA=pd.read_csv('resources/metadata/metadata.csv').loc[0:3]
+ACCESSIONS=METADATA['sample_id'].tolist() # Specify the column containing the accession, in this demo is Run
+
 # Master rule for controlling workflow.
 rule all:
-	input:
-		"index.html",
+    input:
+        expand("resources/reads/trimmed/{accession}_{sraNum}.fastq", accession=ACCESSIONS, sraNum=config["sraNum"]),
+        expand("resources/reads/trimmed/decontam/{accession}_{sraNum}.fastq", accession=ACCESSIONS, sraNum=config["sraNum"]),
+        "results/qc/seqkit1/seqkit_stats.txt",
+        "results/qc/multiqc1/multiqc_report.html", 
+
+        "results/qc/seqkit2/seqkit_stats.txt",
+        "results/qc/multiqc2/multiqc_report.html",
+
+        "results/qc/seqkit3/seqkit_stats.txt",
+        "results/qc/multiqc3/multiqc_report.html",
+
+        "index.html",
+
+
+rule import_prepared_data:
+	output:
+		task="from-imap-part1.txt",
+	shell:
+		"echo from-imap-part1 > {output}"
+
+
+# Trimming and decontaminating
+rule bbduk_trim_decontam:
+    input:
+        what=rules.import_prepared_data.output,
+        script="workflow/scripts/bbduk_trim_decontam.sh",
+    output:
+        trim=expand("resources/reads/trimmed/{accession}_{sraNum}.fastq", accession=ACCESSIONS, sraNum=config["sraNum"]),
+        decontam=expand("resources/reads/trimmed/decontam/{accession}_{sraNum}.fastq", accession=ACCESSIONS, sraNum=config["sraNum"]),
+    shell:
+        "bash {input.script}"
+
+# Qcing rawdata
+rule qc_raw_trimmed_decontam:
+    input:
+        raw=rules.import_prepared_data.output,
+        trim=rules.bbduk_trim_decontam.output,
+        script="workflow/scripts/qc_raw_trimmed_decontam.sh",
+    output:
+        "results/qc/seqkit1/seqkit_stats.txt",
+        "results/qc/multiqc1/multiqc_report.html", 
+
+        "results/qc/seqkit2/seqkit_stats.txt",
+        "results/qc/multiqc2/multiqc_report.html",
+
+        "results/qc/seqkit3/seqkit_stats.txt",
+        "results/qc/multiqc3/multiqc_report.html",
+    threads: 1
+    shell:
+        "bash {input.script}"
 
 # Get dot rule graphs
 rule dot_rulegraph:
@@ -41,6 +98,7 @@ rule deploy_to_github_pages:
         rulegraph="dags/rulegraph.svg",
         tree="images/project_tree.txt",
         html2png="images/smkreport/screenshot.png",
+        qc=rules.qc_raw_trimmed_decontam.output,
     output:
         doc="index.html",
     shell:
