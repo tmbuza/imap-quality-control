@@ -1,8 +1,7 @@
 #!/bin/bash
 
-echo PROGRESS: Read decomtamination
+echo PROGRESS: Read decontamination
 cd resources/reads/trimmed
-
 for i in `ls -1 *_1.fastq | sed 's/_1.fastq//'`
   do
   bbduk.sh -Xmx3g \
@@ -14,3 +13,4 @@ for i in `ls -1 *_1.fastq | sed 's/_1.fastq//'`
     hdist=1 \
     overwrite=True
   done
+

@@ -4,9 +4,8 @@
 INPUTDIR="../imap-requirements/resources"
 OUTDIR="resources"
 
-
 ###############################
-echo PROGRESS: "Preparing resouces for QC"
+echo PROGRESS: "Preparing resouces for Bioinformatics (IMAP-PART 2)"
 ###############################
 
 mkdir -p "${OUTDIR}"

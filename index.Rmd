@@ -1,5 +1,5 @@
 ---
-title:  "<big><u>IMAP-QC</u></big><br><br>Quality Control of Microbiome Sequence Reads<br><br>"
+title:  "<big><u>IMAP-QC</u></big><br><br>Quality Control of Next Generation Sequencing Reads<br><br>"
 subtitle: |
   | ![](images/bkgd2.png)<br>
   | Integrated Microbiome Analysis Pipelines<br>( IMAP-QC ) <br><br><small>[Latest GitHub-Repo](https://github.com/tmbuza/read-quality-control/)</small>
@@ -57,39 +57,57 @@ library(schtools)
 
 <br><hr width=100%><br>
 
-# General Overview
+# Project Overview
 
-- We use the snakemake workflow management system [@Koster2021; @Snakemake2023] for:
-  - Maintaining reproducibility in technical validation and regeneration of results.
-  - Creating scalable data analysis scaled to server, grid or cloud environment.
-  - Fostering sustainable improvement of the microbiome data analysis.
-- We also review existing workflows [@Snakemake2023; @Mothursnakemake] to help in gaining a better insights for improving microbiome data analysis.
-- We break any complex workflows into small contiguous but related chunks where each major step form a separate executable snakemake rule.
-
-<br>
-
-> We envision to keep fostering on continuous integration and development of highly reproducible workflows.
-
-<br>
-
-## Snakemake rule DAG
-- Typically the snakemake workflow is defined by specifying rules.
-- The rule-graph graphically shows the input-output files. 
-- The snakemake is capable of automatically determining the dependencies between the rules and creates a dot-like DAG (Directed Acyclic Graph).
+##  Basic structure
+```bash
+bash workflow/scripts/rules_dag.sh
+```
+<img src="dags/basic_rulegraph.svg">Basic structure
 
 <br><br>
-<img src="dags/rulegraph.svg">Quality control snakemake workflow.
+
+## Current project tree
+```bash
+bash workflow/scripts/tree.sh
+```
+
+```{bash}
+bash workflow/scripts/tree.sh
+
+cat images/project_tree.txt
+```
 
 <br><br>
 
 ## Screenshot of Snakemake HTML report {#smkreport}
 > The snakemake html report can be viewed using any compartible browser, such as chrome to explore more on the workflow and the associated statistics. You will be able to close the left bar to get a better wider view of the display.
 
+```bash
+bash workflow/scripts/smk_html_report.sh
+```
+
 <img src="images/smkreport/screenshot.png">
+
 
 <br><br><hr width=100%><br><br>
 
-# Read Quality Control 
+# Sequencing Reads QC
+
+## Potential QC tools
+- Seqkit
+- Fastqc
+- MultiQC
+- BBDuk script
+- Trimmomatic
+- Kneaddata
+- Adapter fasta files
+- PhiX fasta file
+
+##  Basic QC workflow
+
+<img src="dags/analysis_rulegraph.svg">Analysis workflow
+
 
 ## Raw reads
 ![](results/qc/multiqc1/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg)
@@ -110,8 +128,8 @@ library(schtools)
 
 ![](images/qc_hist.svg)
 
-<br><br>
 
+<br><br>
 
 ```{block, echo=TRUE}
 # Related work
@@ -124,6 +142,7 @@ library(schtools)
 | [IMAP-PART3](https://github.com/tmbuza/imap-data-preprocessing/) | Microbiome Data Preprocessing | [..In Progress..](https://tmbuza.github.io/imap-data-preprocessing/) |
 | [IMAP-PART4](https://github.com/tmbuza/imap-exploratory-analysis/) | Exploratory Analysis of Microbiome Data | [..In Progress..](https://tmbuza.github.io/imap-exploratory-analysis/) |
 | [IMAP-PART5](https://tmbuza.github.io/imap-machine-learning/) | Microbiome Machine Learning | [..In Progress..](https://tmbuza.github.io/imap-machine-learning/) |
+| [IMAP-QC](https://tmbuza.github.io/read-quality-control/) | Quality Control of Next Generation Sequencing Reads | [..In Progress..](https://tmbuza.github.io/read-quality-control/) |
 
 <br>
 

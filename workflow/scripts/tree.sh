@@ -1,4 +1,4 @@
 #!/bin/bash
 
-tree -L 2 . >images/project_tree.txt
+tree -L 3 . >images/project_tree.txt
 

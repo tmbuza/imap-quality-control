@@ -16,8 +16,14 @@ ACCESSIONS=METADATA['sample_id'].tolist() # Specify the column containing the ac
 # Master rule for controlling workflow.
 rule all:
     input:
-        expand("resources/reads/trimmed/{accession}_{sraNum}.fastq", accession=ACCESSIONS, sraNum=config["sraNum"]),
-        expand("resources/reads/trimmed/decontam/{accession}_{sraNum}.fastq", accession=ACCESSIONS, sraNum=config["sraNum"]),
+        # expand("resources/reads/trimmed/{accession}_{sraNum}.fastq", accession=ACCESSIONS, sraNum=config["sraNum"]),
+        # expand("resources/reads/trimmed/decontam/{accession}_{sraNum}.fastq", accession=ACCESSIONS, sraNum=config["sraNum"]),
+        # expand("results/qc/fastqc1/{accession}_{sraNum}_fastqc.html", accession=ACCESSIONS, sraNum=config["sraNum"]),
+        # expand("results/qc/fastqc1/{accession}_{sraNum}_fastqc.zip", accession=ACCESSIONS, sraNum=config["sraNum"]),
+        # expand("results/qc/fastqc2/{accession}_{sraNum}_fastqc.html", accession=ACCESSIONS, sraNum=config["sraNum"]),
+        # expand("results/qc/fastqc2/{accession}_{sraNum}_fastqc.zip", accession=ACCESSIONS, sraNum=config["sraNum"]),
+        # expand("results/qc/fastqc3/{accession}_{sraNum}_fastqc.html", accession=ACCESSIONS, sraNum=config["sraNum"]),
+        # expand("results/qc/fastqc3/{accession}_{sraNum}_fastqc.zip", accession=ACCESSIONS, sraNum=config["sraNum"]),
         "results/qc/seqkit1/seqkit_stats.txt",
         "results/qc/multiqc1/multiqc_report.html", 
 
@@ -27,78 +33,188 @@ rule all:
         "results/qc/seqkit3/seqkit_stats.txt",
         "results/qc/multiqc3/multiqc_report.html",
 
+        "results/qc/multiqc1/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg",
+        "results/qc/multiqc2/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg",
+        "results/qc/multiqc3/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg",
+
+        "dags/analysis_rulegraph.svg",
+        "dags/basic_rulegraph.svg",
+        "images/smkreport/screenshot.png",
+        "images/project_tree.txt",
+
         "index.html",
 
+include: "rules/project_structure.smk"
 
-rule import_prepared_data:
+rule import_input_data:
 	output:
-		task="from-imap-part1.txt",
+		metadata="resources/metadata/metadata.csv",
 	shell:
-		"echo from-imap-part1 > {output}"
+		"""
+		bash workflow/scripts/import_input_data.sh
+		"""
 
-
-# Trimming and decontaminating
-rule bbduk_trim_decontam:
+# Trim raw reads
+rule bbduk_trim_reads:
     input:
-        what=rules.import_prepared_data.output,
-        script="workflow/scripts/bbduk_trim_decontam.sh",
+        script="workflow/scripts/bbduk_trim_reads.sh",    
+        data=rules.import_input_data.output,
     output:
         trim=expand("resources/reads/trimmed/{accession}_{sraNum}.fastq", accession=ACCESSIONS, sraNum=config["sraNum"]),
+    shell:
+        "bash {input.script}"
+
+# Decontaminate trimmed reads
+rule bbduk_decontam_reads:
+    input:
+        script="workflow/scripts/bbduk_decontam_reads.sh",    
+        data=rules.bbduk_trim_reads.output,
+    output:
         decontam=expand("resources/reads/trimmed/decontam/{accession}_{sraNum}.fastq", accession=ACCESSIONS, sraNum=config["sraNum"]),
     shell:
         "bash {input.script}"
 
-# Qcing rawdata
-rule qc_raw_trimmed_decontam:
+# QC1
+rule seqkit_stats_raw:
     input:
-        raw=rules.import_prepared_data.output,
-        trim=rules.bbduk_trim_decontam.output,
-        script="workflow/scripts/qc_raw_trimmed_decontam.sh",
+        script="workflow/scripts/seqkit_stats.sh",
+        reads=rules.import_input_data.output,
     output:
         "results/qc/seqkit1/seqkit_stats.txt",
-        "results/qc/multiqc1/multiqc_report.html", 
-
-        "results/qc/seqkit2/seqkit_stats.txt",
-        "results/qc/multiqc2/multiqc_report.html",
-
-        "results/qc/seqkit3/seqkit_stats.txt",
-        "results/qc/multiqc3/multiqc_report.html",
     threads: 1
     shell:
         "bash {input.script}"
 
-# Get dot rule graphs
-rule dot_rulegraph:
-	output:
-		"dags/rulegraph.svg",
-		"dags/rulegraph.png",
-	shell:
-		"bash workflow/scripts/rules_dag.sh"
-
-# Get project tree
-rule project_tree:
+rule fastqc_raw:
+    input:
+        script="workflow/scripts/fastqc.sh",
+        reads=rules.bbduk_trim_reads.output,
     output:
-        tree="images/project_tree.txt"
+        html=expand("results/qc/fastqc1/{accession}_{sraNum}_fastqc.html", accession=ACCESSIONS, sraNum=config["sraNum"]),
+        zip=expand("results/qc/fastqc1/{accession}_{sraNum}_fastqc.zip", accession=ACCESSIONS, sraNum=config["sraNum"]),
+    threads: 1
     shell:
-        """
-        bash workflow/scripts/tree.sh
-        """
+        "bash {input.script}"
 
-# Get smk html report
-rule snakemake_html_report:
-	output:
-		"images/smkreport/screenshot.png"
-	shell:
-		"bash workflow/scripts/smk_html_report.sh"
+rule multiqc_raw:
+    input:
+        script="workflow/scripts/multiqc.sh",
+        zip=rules.fastqc_raw.output.zip,
+    output:
+        "results/qc/multiqc1/multiqc_report.html",
+        "results/qc/multiqc1/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg",
+    threads: 1
+    shell:
+        "bash {input.script}"
+
+# QC2
+rule seqkit_stats_trimmed:
+    input:
+        script="workflow/scripts/seqkit_stats.sh",
+        reads=rules.bbduk_trim_reads.output,
+    output:
+        "results/qc/seqkit2/seqkit_stats.txt",
+    threads: 1
+    shell:
+        "bash {input.script}"
+
+rule fastqc_trimmed:
+    input:
+        script="workflow/scripts/fastqc.sh",
+        reads=rules.bbduk_trim_reads.output,
+    output:
+        html=expand("results/qc/fastqc2/{accession}_{sraNum}_fastqc.html", accession=ACCESSIONS, sraNum=config["sraNum"]),
+        zip=expand("results/qc/fastqc2/{accession}_{sraNum}_fastqc.zip", accession=ACCESSIONS, sraNum=config["sraNum"]),
+    threads: 1
+    shell:
+        "bash {input.script}"
+
+rule multiqc_trimmed:
+    input:
+        script="workflow/scripts/multiqc.sh",
+        zip=rules.fastqc_trimmed.output.zip,
+    output:
+        "results/qc/multiqc2/multiqc_report.html",
+        "results/qc/multiqc2/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg",
+    threads: 1
+    shell:
+        "bash {input.script}"
+
+# QC3
+rule seqkit_stats_decontam:
+    input:
+        script="workflow/scripts/seqkit_stats.sh",
+        reads=rules.bbduk_decontam_reads.output,
+    output:
+        "results/qc/seqkit3/seqkit_stats.txt",
+    threads: 1
+    shell:
+        "bash {input.script}"
+
+rule fastqc_decontam:
+    input:
+        script="workflow/scripts/fastqc.sh",
+        reads=rules.bbduk_decontam_reads.output,
+    output:
+        html=expand("results/qc/fastqc3/{accession}_{sraNum}_fastqc.html", accession=ACCESSIONS, sraNum=config["sraNum"]),
+        zip=expand("results/qc/fastqc3/{accession}_{sraNum}_fastqc.zip", accession=ACCESSIONS, sraNum=config["sraNum"]),
+    threads: 1
+    shell:
+        "bash {input.script}"
+
+rule multiqc_decontam:
+    input:
+        script="workflow/scripts/multiqc.sh",
+        zip=rules.fastqc_decontam.output.zip,
+    output:
+        "results/qc/multiqc3/multiqc_report.html",
+        "results/qc/multiqc3/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg",
+    threads: 1
+    shell:
+        "bash {input.script}"
+
+# # Get dot rule graphs
+# rule basic_rulegraph:
+# 	output:
+# 		"dags/analysis_rulegraph.svg",
+# 		"dags/analysis_rulegraph.png",
+# 		"dags/basic_rulegraph.svg",
+# 		"dags/basic_rulegraph.png",
+# 	shell:
+# 		"bash workflow/scripts/rules_dag.sh"
+
+# # Get project tree
+# rule project_tree:
+#     output:
+#         tree="images/project_tree.txt"
+#     shell:
+#         """
+#         bash workflow/scripts/tree.sh
+#         """
+
+# # Get smk html report
+# rule snakemake_html_report:
+# 	output:
+# 		"images/smkreport/screenshot.png"
+# 	shell:
+# 		"bash workflow/scripts/smk_html_report.sh"
+
 
 rule deploy_to_github_pages:
     input:
         script="workflow/scripts/render.R",
         rmd="index.Rmd",
-        rulegraph="dags/rulegraph.svg",
-        tree="images/project_tree.txt",
         html2png="images/smkreport/screenshot.png",
-        qc=rules.qc_raw_trimmed_decontam.output,
+        qc="images/qc_hist.svg",
+        basicSVG="dags/basic_rulegraph.svg",
+        analysisSVG="dags/analysis_rulegraph.svg",
+        treeTXT="images/project_tree.txt",
+        seqkit1="results/qc/seqkit1/seqkit_stats.txt",
+        seqkit2="results/qc/seqkit2/seqkit_stats.txt",
+        seqkit3="results/qc/seqkit3/seqkit_stats.txt",
+        multiqc1="results/qc/multiqc1/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg",
+        multiqc2="results/qc/multiqc2/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg",
+        multiqc3="results/qc/multiqc3/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg",
     output:
         doc="index.html",
     shell:
