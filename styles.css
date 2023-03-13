@@ -6,7 +6,7 @@ body h4 { margin-top: 1.5em; font-size: 1.2em; }
 body h5 { margin-top: 1.5em; font-size: 1em; }
 
 
-h1, h2, h3, h4, h5{ line-height: 1.5; }
+h1, h2, h3, h4, h5{ line-height: 1.3; }
 p { line-height: 2; }
 
 #main-container { width: 100%; background-color: white; color: black; padding: 30px; margin-left: auto; margin-right: auto; }
