@@ -18,7 +18,9 @@ read_stats <- inner_join(stats1, stats2, by = "file") %>%
   mutate(strand = ifelse(str_detect(file, "_1"), "foward", "reverse"), .before=original) %>%
   pivot_longer(cols = -c(file, strand), names_to = "variable", values_to = "num_seqs") %>% 
   mutate(variable = factor(variable),
-         variable = fct_reorder(variable, num_seqs, .desc=TRUE)) %>% 
+         variable = fct_reorder(variable, num_seqs, .desc=TRUE))
+         
+read_stats %>% 
   ggplot(aes(x = strand, y = num_seqs/1000, fill = variable)) +
   geom_col(position = "dodge") +
   labs(x = "Read Strand", y = "Number of Reads (thousand)", fill = "Preprocess") +

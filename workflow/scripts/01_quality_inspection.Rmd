@@ -1,0 +1,45 @@
+# Sequencing Reads QC tools
+
+## Tools freely available
+- Seqkit
+- Fastqc
+- MultiQC
+- BBDuk script
+- Trimmomatic
+- Kneaddata
+- Adapter fasta files
+- PhiX fasta file
+
+```bash
+name: readqc
+channel:
+    - 
+```
+- We assume that the tools above are installed. Now it is time to use them to:
+  - Get simple statistics.
+  - Check the quality of the reads.
+  - Create summary report of quality metrics.
+  - Trim poor read at a user-specified cutoff.
+  - Remove contaminants.
+
+<br><br>
+
+## Raw reads
+![](results/qc/multiqc1/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg)
+
+<br><br>
+
+## After trimming poor reads
+![](results/qc/multiqc2/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg)
+
+<br><br>
+
+## After removing contaminated reads
+![](results/qc/multiqc2/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg)
+
+<br><br>
+
+## Graphical view of processed read status
+
+![](images/qc_hist.svg)
+
