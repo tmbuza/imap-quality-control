@@ -1,13 +1,16 @@
 #!/bin/bash
 
 # Creating basic variables
-INPUTDIR="../imap-requirements/resources"
-OUTDIR="resources"
+METASOURCE="../imap-download-sra-reads/data/metadata/"
+RAWDATA="../imap-download-sra-reads/data/test/"
+OUTDIR="resources/reads"
+METADIR="resources/metadata"
 
 ###############################
-echo PROGRESS: "Preparing resouces for Bioinformatics (IMAP-PART 2)"
+echo PROGRESS: "Preparing resouces for quality control"
 ###############################
 
-mkdir -p "${OUTDIR}"
+mkdir -p "${OUTDIR}" "${METADIR}"
 
-cp -r "${INPUTDIR}"/* "${OUTDIR}"/
+cp -r "${METASOURCE}"/metadata.csv "${METADIR}"/metadata.csv
+cp -r "${RAWDATA}"/* "${OUTDIR}"/

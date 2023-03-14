@@ -19,7 +19,7 @@ link-citations: true
 mainfont:
 biblio-style: apalike
 email_address: "tmbuza@complexdatainsights.com"
-github_repo: "https://github.com/tmbuza/imap-software-requirements"
+github_repo: "https://github.com/tmbuza/imap-read-quality-control"
 description: |
   | How to get started with systematic microbiome data analysis with Snakemake workflows.
 ---
@@ -69,6 +69,7 @@ library(schtools)
 
 ```{r next}
 ```
+
 
 
 <br><hr width=100%><br>
