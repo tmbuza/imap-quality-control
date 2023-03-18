@@ -10,56 +10,88 @@ import os
 import csv
 import pandas as pd
 
+READSDIR="resources/reads"
 METADATA=pd.read_csv('resources/metadata/metadata.csv').loc[0:3]
-ACCESSIONS=METADATA['Run'].tolist() # Specify the column containing the accession, in this demo is Run
+ACCESSIONS=METADATA['run'].tolist() # Specify the column containing the accession, in this demo is Run
 
 # Master rule for controlling workflow.
 rule all:
     input:
-        expand("resources/reads/trimmed/{accession}_{sraNum}.fastq.gz", accession=ACCESSIONS, sraNum=config["sraNum"]),
-        expand("resources/reads/trimmed/decontam/{accession}_{sraNum}.fastq.gz", accession=ACCESSIONS, sraNum=config["sraNum"]),
-        expand("results/qc/fastqc1/{accession}_{sraNum}_fastqc.html", accession=ACCESSIONS, sraNum=config["sraNum"]),
-        expand("results/qc/fastqc1/{accession}_{sraNum}_fastqc.zip", accession=ACCESSIONS, sraNum=config["sraNum"]),
-        expand("results/qc/fastqc2/{accession}_{sraNum}_fastqc.html", accession=ACCESSIONS, sraNum=config["sraNum"]),
-        expand("results/qc/fastqc2/{accession}_{sraNum}_fastqc.zip", accession=ACCESSIONS, sraNum=config["sraNum"]),
-        expand("results/qc/fastqc3/{accession}_{sraNum}_fastqc.html", accession=ACCESSIONS, sraNum=config["sraNum"]),
-        expand("results/qc/fastqc3/{accession}_{sraNum}_fastqc.zip", accession=ACCESSIONS, sraNum=config["sraNum"]),
-        
-        "results/qc/seqkit1/seqkit_stats.txt",
-        "results/qc/multiqc1/multiqc_report.html", 
-
-        "results/qc/seqkit2/seqkit_stats.txt",
-        "results/qc/multiqc2/multiqc_report.html",
-
-        "results/qc/seqkit3/seqkit_stats.txt",
-        "results/qc/multiqc3/multiqc_report.html",
-
-        "results/qc/multiqc1/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg",
-        "results/qc/multiqc2/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg",
-        "results/qc/multiqc3/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg",
-
-        "dags/rulegraph.svg",
-        "images/smkreport/screenshot.png",
-        "images/project_tree.txt",
-
         "index.html",
+        # "images/qc_hist.svg", 
+        # expand("resources/reads/trimmed/{accession}_{sraNum}.fastq.gz", accession=ACCESSIONS, sraNum=config["sraNum"]),
+        # expand("resources/reads/trimmed/decontam/{accession}_{sraNum}.fastq.gz", accession=ACCESSIONS, sraNum=config["sraNum"]),
+        # expand("results/qc/fastqc1/{accession}_{sraNum}_fastqc.html", accession=ACCESSIONS, sraNum=config["sraNum"]),
+        # expand("results/qc/fastqc1/{accession}_{sraNum}_fastqc.zip", accession=ACCESSIONS, sraNum=config["sraNum"]),
+        # expand("results/qc/fastqc2/{accession}_{sraNum}_fastqc.html", accession=ACCESSIONS, sraNum=config["sraNum"]),
+        # expand("results/qc/fastqc2/{accession}_{sraNum}_fastqc.zip", accession=ACCESSIONS, sraNum=config["sraNum"]),
+        # expand("results/qc/fastqc3/{accession}_{sraNum}_fastqc.html", accession=ACCESSIONS, sraNum=config["sraNum"]),
+        # expand("results/qc/fastqc3/{accession}_{sraNum}_fastqc.zip", accession=ACCESSIONS, sraNum=config["sraNum"]),
+        
+        # "results/qc/seqkit1/seqkit_stats.txt",
+        # "results/qc/multiqc1/multiqc_report.html", 
+
+        # "results/qc/seqkit2/seqkit_stats.txt",
+        # "results/qc/multiqc2/multiqc_report.html",
+
+        # "results/qc/seqkit3/seqkit_stats.txt",
+        # "results/qc/multiqc3/multiqc_report.html",
+
+        # "results/qc/multiqc1/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg",
+        # "results/qc/multiqc2/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg",
+        # "results/qc/multiqc3/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg",
+
+        # "dags/rulegraph.svg",
+        # "images/smkreport/screenshot.png",
+        # "images/project_tree.txt",
+
+
+# Import metadata
+rule get_sra_metadata:
+    output:
+        metadata=METADATA
+    shell:
+        """
+        echo "Getting metadata"
+        """
+
+rule get_sra_accession: 
+    input:
+        metadata=METADATA
+    output:
+        acc=ACCESSIONS
+    shell:
+        """
+        echo "Getting SRA accessions"
+        """
+# Import rawreads
+rule get_sra_rawreads:
+    input:
+        acc=ACCESSIONS
+    output:
+        rawreads=expand("resources/reads/{accession}_{sraNum}.fastq.gz", accession=ACCESSIONS, sraNum=config["sraNum"]),
+    shell:
+        """
+        echo "Getting SRA rawreads"
+        """
 
 
 # Trim raw reads
 rule bbduk_trim_reads:
     input:
-        script="workflow/scripts/bbduk_trim_reads.sh",    
-        read=expand("resources/reads/{accession}_{sraNum}.fastq.gz", accession=ACCESSIONS, sraNum=config["sraNum"]),
+        script="workflow/scripts/bbduk_trim.sh", 
+        rawreads=expand("resources/reads/{accession}_{sraNum}.fastq.gz", accession=ACCESSIONS, sraNum=config["sraNum"]),
     output:
         trim=expand("resources/reads/trimmed/{accession}_{sraNum}.fastq.gz", accession=ACCESSIONS, sraNum=config["sraNum"]),
     shell:
         "bash {input.script}"
 
+
 # Decontaminate trimmed reads
 rule bbduk_decontam:
     input:
         script="workflow/scripts/bbduk_decontam.sh",    
-        read=expand("resources/reads/trimmed/{accession}_{sraNum}.fastq.gz", accession=ACCESSIONS, sraNum=config["sraNum"]),
+        trim=expand("resources/reads/trimmed/{accession}_{sraNum}.fastq.gz", accession=ACCESSIONS, sraNum=config["sraNum"]),
     output:
         decont=expand("resources/reads/trimmed/decontam/{accession}_{sraNum}.fastq.gz", accession=ACCESSIONS, sraNum=config["sraNum"]),
     shell:
@@ -79,7 +111,7 @@ rule seqkit_stats_raw:
 rule fastqc_raw:
     input:
         script="workflow/scripts/fastqc_raw.sh",
-        reads=expand("resources/reads/trimmed/{accession}_{sraNum}.fastq.gz", accession=ACCESSIONS, sraNum=config["sraNum"]),
+        reads=expand("resources/reads/{accession}_{sraNum}.fastq.gz", accession=ACCESSIONS, sraNum=config["sraNum"]),
     output:
         html=expand("results/qc/fastqc1/{accession}_{sraNum}_fastqc.html", accession=ACCESSIONS, sraNum=config["sraNum"]),
         zip=expand("results/qc/fastqc1/{accession}_{sraNum}_fastqc.zip", accession=ACCESSIONS, sraNum=config["sraNum"]),
@@ -212,9 +244,6 @@ rule deploy_to_github_pages:
         statssvg="images/qc_hist.svg",
         rules="dags/rulegraph.svg",
         tree="images/project_tree.txt",
-        seqkit1="results/qc/seqkit1/seqkit_stats.txt",
-        seqkit2="results/qc/seqkit2/seqkit_stats.txt",
-        seqkit3="results/qc/seqkit3/seqkit_stats.txt",
         multiqc1="results/qc/multiqc1/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg",
         multiqc2="results/qc/multiqc2/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg",
         multiqc3="results/qc/multiqc3/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg",

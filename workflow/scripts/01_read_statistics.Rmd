@@ -1,0 +1,23 @@
+# Getting the read statistics
+## Quick glimpse
+Assuming that the `seqkit` tool is installed, we can use it to get the simple statistics of the reads.  
+
+- If the files are uncompressed we may want to save space by compressing them.
+- Let's navigate to the folder containing the fastq files and compress them using `gzip` function.
+
+```bash
+gzip *.fastq
+```
+
+> From this point foward we will assume that all the fastq files are in fastq.gz format. We will use the `seqkit` tool to compute read statistics which contain useful information for preparing sample mapping files.
+
+```bash
+#!/bin/bash
+
+echo PROGRESS: Getting stats of the raw reads.
+
+INPUTDIR="resources/reads"
+SEQKIT="results/qc/seqkit1"
+mkdir -p "${SEQKIT}"
+seqkit stat "${INPUTDIR}"/*.fastq.gz >"${SEQKIT}"/seqkit_stats.txt
+```

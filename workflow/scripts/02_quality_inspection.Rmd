@@ -1,8 +1,7 @@
-# Sequencing Read QC tools
+# Read Quality Control tools
 
 ## Quick glimpse
 - Assuming that the most QC tools are installed, it is time to use them to do the following:
-  - Get simple statistics.
   - Check the quality of the reads.
   - Create summary report of quality metrics.
   - Trim poor read at a user-specified cutoff.

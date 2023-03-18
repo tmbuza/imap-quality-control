@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Creating basic variables
-INPUTDIR="../imap-sample-metadata/data/test"
+INPUTDIR="../imap-download-sra-reads/data/test"
 OUTDIR="resources/reads"
 
 ###############################
-echo PROGRESS: "Importing metadata"
+echo PROGRESS: "Importing rawdata from imap-download-sra-reads"
 ###############################
 
 mkdir -p "${OUTDIR}"

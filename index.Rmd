@@ -62,14 +62,18 @@ library(schtools)
 
 <br><hr width=100%><br>
 
-```{r child='workflow/scripts/01_quality_inspection.Rmd'}
+```{r child='workflow/scripts/01_read_statistics.Rmd'}
+```
+
+<br>
+
+```{r child='workflow/scripts/02_quality_inspection.Rmd'}
 ```
 
 <br>
 
 ```{r next}
 ```
-
 
 
 <br><hr width=100%><br>
@@ -105,7 +109,6 @@ library(schtools)
 
 ## Project main tree
 ```{bash, include=FALSE}
-mamba install -c conda-forge tree
 bash workflow/scripts/tree.sh
 ```
 
