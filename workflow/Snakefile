@@ -6,11 +6,14 @@ min_version("6.10.0")
 configfile: "config/config.yaml"
 
 
+report: "report/workflow.rst"
+report: "report/qc.rst"
+report: "report/stats.rst"
+
 import os
 import csv
 import pandas as pd
 
-READSDIR="resources/reads"
 METADATA=pd.read_csv('resources/metadata/metadata.csv').loc[0:3]
 ACCESSIONS=METADATA['run'].tolist() # Specify the column containing the accession, in this demo is Run
 
@@ -44,6 +47,7 @@ rule all:
         # "dags/rulegraph.svg",
         # "images/smkreport/screenshot.png",
         # "images/project_tree.txt",
+        "images/qc_hist.svg",
 
 
 # Import metadata
@@ -125,7 +129,7 @@ rule multiqc_raw:
         zip=rules.fastqc_raw.output.zip,
     output:
         "results/qc/multiqc1/multiqc_report.html",
-        "results/qc/multiqc1/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg",
+        report("results/qc/multiqc1/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg", caption="report/multiqc1.rst", category="MultiQC 1"),
     threads: 1
     shell:
         "bash {input.script}"
@@ -158,7 +162,7 @@ rule multiqc_trimmed:
         zip=rules.fastqc_trimmed.output.zip,
     output:
         "results/qc/multiqc2/multiqc_report.html",
-        "results/qc/multiqc2/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg",
+        report("results/qc/multiqc2/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg", caption="report/multiqc2.rst", category="MultiQC 2"),
     threads: 1
     shell:
         "bash {input.script}"
@@ -190,25 +194,25 @@ rule multiqc_decontam:
         script="workflow/scripts/multiqc_decontam.sh",
         zip=rules.fastqc_decontam.output.zip,
     output:
-        "results/qc/multiqc3/multiqc_report.html",
-        "results/qc/multiqc3/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg",
+        html="results/qc/multiqc3/multiqc_report.html",
+        svg=report("results/qc/multiqc3/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg", caption="report/multiqc3.rst", category="MultiQC 3"),
     threads: 1
     shell:
         "bash {input.script}"
 
-# Get dot rule graphs
-rule dot_rules_graph:
-	output:
-		"dags/rulegraph.svg",
-		"dags/rulegraph.png",
-	shell:
-		"bash workflow/scripts/rules_dag.sh"
+# # Get dot rule graphs
+# rule dot_rules_graph:
+# 	output:
+#         "dags/rulegraph.svg",       
+#         "dags/rulegraph.png",
+# 	shell:
+# 		"bash workflow/scripts/rules_dag.sh"
 
 
 # Get project tree
 rule project_tree:
     output:
-        tree="results/project_tree.txt"
+        tree=report("results/project_tree.txt", caption="report/tree.rst", category="Project tree"),
     shell:
         """
         bash workflow/scripts/tree.sh
@@ -225,16 +229,20 @@ rule static_snakemake_report:
         """
 
 # Plot stats hist
-rule plot_read_sta_hist:
+rule plot_qc_hist:
     input:
         stats1="results/qc/seqkit1/seqkit_stats.txt",
         stats2="results/qc/seqkit2/seqkit_stats.txt",
         stats3="results/qc/seqkit3/seqkit_stats.txt",
     output:
         statspng="images/qc_hist.png",
-        statssvg="images/qc_hist.svg",
+        statssvg=report("images/qc_hist.svg", caption="report/stats.rst", category="Read statistics"),
     script:
-        "scripts/plot_qc_bar.R"
+        "scripts/plot_qc_hist.R"
+
+report: "report/workflow.rst"
+
+
 
 rule deploy_to_github_pages:
     input:
@@ -253,5 +261,6 @@ rule deploy_to_github_pages:
         """
         R -e "library(rmarkdown); render('{input.rmd}')"
         """
+
 
 

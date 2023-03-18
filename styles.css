@@ -62,104 +62,18 @@ code{ color:#6c6c6c; font-size: 98%; background-color: #f5f5f5; }
   position:relative;
 }
 
-.tmbcomment:before {
-    content: "\f14d";
-    font-family: FontAwesome;
-    left:10px;
-    position:absolute;
-    font-size: 45px;
- }
-
-.tmbalert:before {
-    content: "\f06a";
-    font-family: FontAwesome;
-    left:10px;
-    position:absolute;
-    font-size: 45px;
- }
-
-.tmbinfo:before {
-    content: "\f05a";
-    font-family: FontAwesome;
-    left:10px;
-    position:absolute;
-    font-size: 45px;
- }
-
-.tmbinfo2:before {
-    content: "\10f129";
-    font-family: FontAwesome;
-    left:10px;
-    position:absolute;
-    font-size: 45px;
- }
- 
-.tmbarrowF:before {
-    content: "\f0a9";
-    font-family: FontAwesome;
-    left:10px;
-    position:absolute;
-    font-size: 45px;
- }
- 
-.tmb2arrowsF:before {
-    content: "\f101";
-    font-family: FontAwesome;
-    left:10px;
-    position:absolute;
-    font-size: 45px;
- }
- 
-.tmbshare:before {
-    content: "\f064";
-    font-family: FontAwesome;
-    left:10px;
-    position:absolute;
-    font-size: 35px;
- }
- 
-.tmbqns:before {
-    content: "\f059";
-    font-family: FontAwesome;
-    left:10px;
-    position:absolute;
-    font-size: 45px;
- }
-
-.tmbcheck1:before {
-    content: "\f14a";
-    font-family: FontAwesome;
-    left:10px;
-    position:absolute;
-    font-size: 45px;
- }
- 
-.tmbcheck2:before {
-    content: "\f058";
-    font-family: FontAwesome;
-    left:10px;
-    position:absolute;
-    font-size: 45px;
- }
- div.sourceCode {
-  position: relative;
+/* .prose :where(pre):not(:where([class~="not-prose"] *)) {
+  color: rgba(11, 11, 11, 0.95);
+  background-color: #9a9696;
+  overflow-x: auto;
+  font-weight: 400;
+  font-size: 0.875em;
+  line-height: 1.7142857;
+  margin-top: 1.7142857em;
+  margin-bottom: 1.7142857em;
 }
 
-.copy-to-clipboard-button {
-  position: absolute;
-  right: 0;
-  top: 0;
-  visibility: hidden;
-}
-
-.copy-to-clipboard-button:focus {
-  outline: 0;
-}
-
-div.sourceCode:hover > .copy-to-clipboard-button {
-  visibility: visible;
-}
-
-.leaflet-contaioner {
-  background: red;
-} 
+nav{
+  color: rgb(0, 0, 0);
+  background-color: #FFFFFF;
+} */

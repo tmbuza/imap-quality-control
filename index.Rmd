@@ -60,6 +60,16 @@ library(schtools)
 ```{r child='workflow/scripts/00_preface_n_intro.Rmd'}
 ```
 
+## Snakemake workflow for read QC 
+
+```{bash ruledag, include=FALSE}
+bash workflow/scripts/rules_dag.sh
+```
+
+![A tentative visualization of the snakemake workflow which defines **read QC rules** in a DAG (directed acyclic graph) format.](dags/rulegraph.svg)
+
+
+
 <br><hr width=100%><br>
 
 ```{r child='workflow/scripts/01_read_statistics.Rmd'}
@@ -116,17 +126,21 @@ bash workflow/scripts/tree.sh
 cat results/project_tree.txt
 ```
 
-## Screenshot of interactive snakemake report {#smkreport}
-> The interactive snakemake HTML report can be viewed by opening the `report.html` using any compatible browser. You will be able to explore the workflow and the associated statistics. You can close the left bar to get a more expansive display view.
+## Static snakemake report {#smkreport}
+> We can view the interactive snakemake HTML report by opening the `report.html` using any compatible browser. You will be able to explore the workflow and the associated statistics. You can close the left bar to get a more expansive display view.
+
 
 ```{bash smkrpt, include=FALSE}
 snakemake --unlock;
+
 snakemake --report report.html;
+
 pip install html2image
+
 hti -H report.html -o images/smkreport;
 ```
 
-<img src="images/smkreport/screenshot.png">
+![](images/smkreport/screenshot.png)
 
 ## Troubleshooting of FAQs
 <ol>
@@ -135,7 +149,6 @@ hti -H report.html -o images/smkreport;
   <li>Question</li>
     <ul>Answer</ul>
 </ol>
-
 
 </div> <!-- end main-container -->
 
@@ -146,6 +159,3 @@ Last updated on `r format(Sys.time(), '%B %d, %Y')`.<br>
 Github_Repo: `r rmarkdown::metadata$github_repo`.<br>
 Repo compiled and maintained by: [`r rmarkdown::metadata$author`](mailto:`r rmarkdown::metadata$email_address`). 
 </div>
-
-
-

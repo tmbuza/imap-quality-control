@@ -1,30 +1,28 @@
-# Read Quality Control tools
-
-## Quick glimpse
-- Assuming that the most QC tools are installed, it is time to use them to do the following:
-  - Check the quality of the reads.
-  - Create summary report of quality metrics.
-  - Trim poor read at a user-specified cutoff.
-  - Remove contaminants.
+## Read Quality Control
+- Assuming that most QC tools are ready, it is time to use them to do the following:
+  - Check the quality of the reads using `fastqc`.
+  - Create a summary report of quality metrics using `multiqc`.
+  - Trim poor read at a user-specified cutoff using `bbduk.sh`.
+  - Remove contaminants `bbduk.sh`.
 
 <br>
 
-## QC on raw reads
+### QC on raw reads
 ![](results/qc/multiqc1/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg)
 
 <br>
 
-## QC after trimming poor reads
+### QC after trimming poor reads
 ![](results/qc/multiqc2/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg)
 
 <br>
 
-## QC after removing contaminated reads
+### QC after removing contaminated reads
 ![](results/qc/multiqc2/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg)
 
 <br>
 
-## Graphical view of processed read status
+### Processed read status
 
 ![](images/qc_hist.svg)
 
