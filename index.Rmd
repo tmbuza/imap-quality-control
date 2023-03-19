@@ -60,15 +60,18 @@ library(schtools)
 ```{r child='workflow/scripts/00_preface_n_intro.Rmd'}
 ```
 
-## Snakemake workflow for read QC 
+<br>
+
+## Snakemake workflow for metadata acquisition 
 
 ```{bash ruledag, include=FALSE}
 bash workflow/scripts/rules_dag.sh
 ```
 
-![A tentative visualization of the snakemake workflow which defines **read QC rules** in a DAG (directed acyclic graph) format.](dags/rulegraph.svg)
+![A tentative visualization of the snakemake workflow that defines **read quality control rule** in a DAG (directed acyclic graph) format.](dags/rulegraph.svg). 
+A detailed interactive snakemake report is available [here](file:///Users/tmbuza/Dropbox/MICROBIOME/imap-read-quality-control/report.html).
 
-
+<br>
 
 <br><hr width=100%><br>
 
@@ -142,6 +145,7 @@ hti -H report.html -o images/smkreport;
 
 ![](images/smkreport/screenshot.png)
 
+
 ## Troubleshooting of FAQs
 <ol>
   <li>Question</li>
@@ -149,6 +153,7 @@ hti -H report.html -o images/smkreport;
   <li>Question</li>
     <ul>Answer</ul>
 </ol>
+
 
 </div> <!-- end main-container -->
 

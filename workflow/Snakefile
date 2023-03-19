@@ -7,8 +7,6 @@ configfile: "config/config.yaml"
 
 
 report: "report/workflow.rst"
-report: "report/qc.rst"
-report: "report/stats.rst"
 
 import os
 import csv
@@ -68,6 +66,7 @@ rule get_sra_accession:
         """
         echo "Getting SRA accessions"
         """
+        
 # Import rawreads
 rule get_sra_rawreads:
     input:
