@@ -19,8 +19,8 @@ rule all:
     input:
         "index.html",
         # "images/qc_hist.svg", 
-        # expand("resources/reads/trimmed/{accession}_{sraNum}.fastq.gz", accession=ACCESSIONS, sraNum=config["sraNum"]),
-        # expand("resources/reads/trimmed/decontam/{accession}_{sraNum}.fastq.gz", accession=ACCESSIONS, sraNum=config["sraNum"]),
+        expand("resources/reads/trimmed/{accession}_{sraNum}.fastq.gz", accession=ACCESSIONS, sraNum=config["sraNum"]),
+        expand("resources/reads/trimmed/decontam/{accession}_{sraNum}.fastq.gz", accession=ACCESSIONS, sraNum=config["sraNum"]),
         # expand("results/qc/fastqc1/{accession}_{sraNum}_fastqc.html", accession=ACCESSIONS, sraNum=config["sraNum"]),
         # expand("results/qc/fastqc1/{accession}_{sraNum}_fastqc.zip", accession=ACCESSIONS, sraNum=config["sraNum"]),
         # expand("results/qc/fastqc2/{accession}_{sraNum}_fastqc.html", accession=ACCESSIONS, sraNum=config["sraNum"]),
@@ -44,7 +44,13 @@ rule all:
         # "dags/rulegraph.svg",
         # "images/smkreport/screenshot.png",
         # "images/project_tree.txt",
-        "images/qc_hist.svg",
+        # "images/qc_hist.svg",
+        "results/mothur_mapping_file.tsv",
+        "results/mothur_metadata_file.tsv",
+        "results/mothur_design_file.tsv",
+        "results/qiime2_manifest_file.tsv",
+        "results/qiime2_metadata_file.tsv",
+
 
 
 # Import metadata
@@ -198,13 +204,38 @@ rule multiqc_decontam:
     shell:
         "bash {input.script}"
 
-# # Get dot rule graphs
-# rule dot_rules_graph:
-# 	output:
-#         "dags/rulegraph.svg",       
-#         "dags/rulegraph.png",
-# 	shell:
-# 		"bash workflow/scripts/rules_dag.sh"
+rule mothur_mapping_files:
+    input:
+        seqkit1=rules.seqkit_stats_raw.output,
+    output:
+        "results/mothur_mapping_file.tsv",
+        "results/mothur_metadata_file.tsv",
+        "results/mothur_design_file.tsv",
+    script:
+        "scripts/mothur_mapping_files.R"
+
+rule qiime2_mapping_files:
+    input:
+        seqkit1=rules.seqkit_stats_raw.output,
+    output:
+        "results/qiime2_manifest_file.tsv",
+        "results/qiime2_metadata_file.tsv",
+    script:
+        "scripts/qiime2_mapping_files.R"
+
+
+
+
+
+
+
+# Get dot rule graphs
+rule dot_rules_graph:
+	output:
+		"dags/rulegraph.svg",
+		"dags/rulegraph.png",
+	shell:
+		"bash workflow/scripts/rules_dag.sh"
 
 
 # Get project tree
