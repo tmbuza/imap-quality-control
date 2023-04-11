@@ -3,7 +3,7 @@ from snakemake.utils import min_version
 min_version("6.10.0")
 
 # Configuration file containing all user-specified settings
-configfile: "config/config.yaml"
+configfile: "config/config.yml"
 
 
 rule deploy_to_github_pages:

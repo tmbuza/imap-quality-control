@@ -15,7 +15,6 @@ read_table("results/qc/seqkit1/seqkit_stats.txt", show_col_types = F) %>%
   as.data.frame() %>%
   write_tsv("results/mothur_mapping_file.tsv")
 
-
 read_tsv("results/mothur_mapping_file.tsv", show_col_types = F) %>% 
   select(sample_id) %>% 
   inner_join(., read_csv("resources/metadata/metadata.csv", show_col_types = FALSE), by = c("sample_id"="run")) %>% 
@@ -23,19 +22,27 @@ read_tsv("results/mothur_mapping_file.tsv", show_col_types = F) %>%
   as.data.frame() %>% 
   write_tsv("results/mothur_metadata_file.tsv")
 
-
 read_tsv("results/mothur_metadata_file.tsv", show_col_types = F) %>% 
   select(Group=1, treatment=2) %>% 
   as.data.frame() %>% 
   write_tsv("results/mothur_design_file.tsv")
 
-# # If _R1_001.fastq.gz
-# library(tidyverse)
-# read_table("results/seqkit1/seqkit_stats.txt", show_col_types = F) %>% 
-#   mutate(sample_id = str_replace_all(file, ".*/", ""), .before=file) %>% 
-#   mutate(sample_id = str_replace_all(sample_id, "_.*", "")) %>%
-#   filter(str_detect(file, "_R1" )) %>% 
-#   mutate(file2 =file, .after = file) %>% 
-#   mutate(file2 = str_replace_all(file, "_R1_001", "_R2_001")) %>%
-#   distinct() %>%  
-#   write_tsv("results/mothur_mapping_file.tsv")
+
+# If _R1_001.fastq.gz
+library(tidyverse)
+read_table("results/qc/seqkit1/mouse_gut_seqkit_stats.txt", show_col_types = F) %>% 
+  mutate(sample_id = str_replace_all(file, ".*/", ""), .before=file) %>% 
+  mutate(sample_id = str_replace_all(sample_id, "_.*", "")) %>%
+  filter(str_detect(file, "_R1" )) %>% 
+  mutate(file2 =file, .after = file) %>% 
+  mutate(file2 = str_replace_all(file, "_R1_001", "_R2_001")) %>%
+  distinct() %>%  
+  write_tsv("results/mothur_nonsra_mapping_file.tsv")
+
+
+read_tsv("results/mothur_nonsra_mapping_file.tsv", show_col_types = F) %>% 
+  select(sample_id) %>% 
+  inner_join(., read_tsv("resources/metadata/mouse_gut.tsv", show_col_types = FALSE), by = "sample_id") %>% 
+  select(sample_id, Sex, Time) %>% 
+  as.data.frame() %>%  
+  write_tsv("results/mothur_nonsra_metadata.tsv")
