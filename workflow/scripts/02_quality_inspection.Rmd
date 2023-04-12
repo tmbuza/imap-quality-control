@@ -18,7 +18,7 @@
 <br>
 
 ### QC after removing contaminated reads
-![](results/qc/multiqc2/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg)
+![](results/qc/multiqc3/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg)
 
 <br>
 

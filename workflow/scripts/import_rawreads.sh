@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Creating basic variables
-INPUTDIR="../imap-download-sra-reads/data/test"
+INPUTDIR="../imap-download-sra-reads/data/reads"
 OUTDIR="resources/reads"
 
 ###############################
