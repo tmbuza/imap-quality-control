@@ -1,7 +1,7 @@
 # QC2
 rule seqkit_stats_trimmed:
     input:
-        reads=expand("resources/reads/trimmed/{sample}.fastq.gz", sample=SAMPLES),
+        expand("{outdir}/trimmed/{sample}_{sraNum}.fastq.gz", outdir=OUTDIR, sample=SAMPLES, sraNum=config["sraNum"]),
     output:
         "results/qc/seqkit2/seqkit_stats.txt",
     threads: 1

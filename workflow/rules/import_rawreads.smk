@@ -2,6 +2,6 @@
 
 rule import_rawreads:
     output:
-        reads=expand("{outdir}/{sample}.fastq.gz", outdir=OUTDIR, sample=SAMPLES),
+        gzfq=expand("{outdir}/{sample}_{sraNum}.fastq.gz", outdir=OUTDIR, sample=SAMPLES, sraNum=config["sraNum"]),
     shell:
         "bash workflow/scripts/import_rawreads.sh"

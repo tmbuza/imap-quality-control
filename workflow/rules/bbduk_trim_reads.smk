@@ -1,9 +1,8 @@
 # Trim raw reads
 rule bbduk_trim_reads:
     input:
-        script="workflow/scripts/bbduk_trim.sh", 
-        rawreads=expand("resources/reads/{sample}.fastq.gz", sample=SAMPLES),
+        rawreads=expand("{outdir}/{sample}_{sraNum}.fastq.gz", outdir=OUTDIR, sample=SAMPLES, sraNum=config["sraNum"]),
     output:
-        trim=expand("resources/reads/trimmed/{sample}.fastq.gz", sample=SAMPLES),
+        trimmed=expand("{outdir}/trimmed/{sample}_{sraNum}.fastq.gz", outdir=OUTDIR, sample=SAMPLES, sraNum=config["sraNum"]),
     shell:
-        "bash {input.script}"
+        "bash workflow/scripts/bbduk_trim.sh"

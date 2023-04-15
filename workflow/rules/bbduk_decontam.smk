@@ -1,8 +1,12 @@
 # Decontaminate trimmed reads
+
 rule bbduk_decontam:
     input:
-        trim=expand("resources/reads/trimmed/{sample}.fastq.gz", sample=SAMPLES),
+        trimmed=expand("{outdir}/trimmed/{sample}_{sraNum}.fastq.gz", outdir=OUTDIR, sample=SAMPLES, sraNum=config["sraNum"]),
     output:
-        decont=expand("resources/reads/trimmed/decontam/{sample}.fastq.gz", sample=SAMPLES),
+        expand("{outdir}/trimmed/decontam/{sample}_{sraNum}.fastq.gz", outdir=OUTDIR, sample=SAMPLES, sraNum=config["sraNum"]),
     shell:
         "bash workflow/scripts/bbduk_decontam.sh"
+
+
+

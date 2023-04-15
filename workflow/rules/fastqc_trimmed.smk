@@ -1,10 +1,10 @@
 
 rule fastqc_trimmed:
     input:
-        reads=expand("resources/reads/trimmed/{sample}.fastq.gz", sample=SAMPLES),
+        gzfq=expand("{outdir}/trimmed/decontam/{sample}_{sraNum}.fastq.gz", outdir=OUTDIR, sample=SAMPLES, sraNum=config["sraNum"]),
     output:
-        html=expand("results/qc/fastqc2/{sample}_fastqc.html", sample=SAMPLES),
-        zip=expand("results/qc/fastqc2/{sample}_fastqc.zip", sample=SAMPLES),
+        html=expand("results/qc/fastqc2/{sample}_{sraNum}_fastqc.html", sample=SAMPLES, sraNum=config["sraNum"]),
+        zip=expand("results/qc/fastqc2/{sample}_{sraNum}_fastqc.zip", sample=SAMPLES, sraNum=config["sraNum"]),
     threads: 1
     shell:
         "bash workflow/scripts/fastqc_trim.sh"
