@@ -10,8 +10,8 @@ qiime2_manifest_file <- read_table("results/qc/seqkit1/seqkit_stats.txt", show_c
   # filter(num_seqs <65000) %>%
   arrange(num_seqs) %>%
   ungroup() %>%
-  mutate(file = str_replace_all(file, ".*/SRR", "$PWD/SRR")) %>%
-  mutate(file2 = str_replace_all(file2, ".*/SRR", "$PWD/SRR")) %>%
+  mutate(file = str_replace_all(file, ".*/SRR", "$PWD/resources/reads/SRR")) %>%
+  mutate(file2 = str_replace_all(file2, ".*/SRR", "$PWD/resources/reads/SRR")) %>%
   select("sample-id" = sample_id, "forward-absolute-filepath" = file, "reverse-absolute-filepath" = file2)
 
 qiime2_manifest_file %>%
