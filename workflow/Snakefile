@@ -25,6 +25,9 @@ include: "rules/plot_qc_hist.smk"
 
 include: "rules/qiime2_manifest_file.smk"
 include: "rules/qiime2_sample_metadata.smk"
+include: "rules/mothur_mapping_file.smk"
+include: "rules/mothur_sample_metadata.smk"
+include: "rules/update_samples_units_files.smk"
 include: "rules/rmd_report.smk"
 
 
@@ -59,8 +62,16 @@ rule all:
         "images/samples_hist.svg",
         "images/qc_hist.svg",
 
-        # "resources/metadata/qiime2_manifest_file.tsv",
+        "resources/metadata/qiime2_manifest_file.tsv",
         "resources/metadata/qiime2_sample_metadata.tsv",
+
+        "resources/metadata/mothur_mapping_file.tsv",
+        "resources/metadata/mothur_sample_metadata.tsv",
+
+        "config/mothur/samples.tsv",
+        "config/mothur/units.tsv",
+        "config/qiime2/samples.tsv",
+        "config/qiime2/units.tsv",
 
         # "dags/rulegraph.svg",
         # "images/smkreport/screenshot.png",
