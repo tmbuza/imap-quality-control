@@ -1,33 +1,37 @@
----
-title:  "<big><u>IMAP-PART 04</u></big><br><br>Quality Control of Microbiome Next Generation Sequencing Reads<br><br>"
-subtitle: |
-  | ![](images/funnels.png)<br>
-  | Fostering Reproducible Microbiome data Analysis with Snakemake workflow
+--- 
+title: "<big>IMAP:</big> Integrated Microbiome Analysis Pipelines"
+subtitle: "End-to-End Practical User Guides Using Integrated Approaches"
 date:
-- IMAP-PART 04<br>[Latest GitHub-Repo](https://github.com/tmbuza/imap-read-quality-control/)<br>
-- Maintained by Teresia Mrema-Buza<br><br>
-- <b>Updated on `r Sys.Date()`</b>
+- <b>`r Sys.Date()`</b>
 author: Teresia Mrema-Buza
-output: 
-  html_document: 
-css:
-- styles.css
-csl: "library/apa.csl"
+site: bookdown::bookdown_site
+documentclass: book
+css: style.css
+csl: 
+  - library/apa.csl
 bibliography:
-- library/references.bib
-- library/imap.bib
-link-citations: true
-mainfont:
+  - library/packages.bib
+  - library/references.bib
+  - library/imap.bib
+citation_package:
+  - natbib
+  - biblatex
+  - amsplain
+url: https://tmbuza.github.io/imap-project-overview/
+cover-image: images/planning.png
+email_address: "ndelly@gmail.com"
+github-repo: tmbuza/imap-project-overview
 biblio-style: apalike
-email_address: "tmbuza@complexdatainsights.com"
-github_repo: "https://github.com/tmbuza/imap-read-quality-control"
 description: |
-  | How to get started with systematic microbiome data analysis with Snakemake workflows.
+  | This part will be added before release.
 ---
 
+```{r lockfile, include=FALSE}
+source("_common.R")
+```
 
-<div id="main-container">
 
+<!-- # Google fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton" rel="stylesheet">
@@ -36,130 +40,19 @@ description: |
 <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;700&display=swap" rel="stylesheet">
 
-```{r globalsetup, echo=FALSE, message=FALSE, warning=FALSE}
-knitr::opts_chunk$set(
-  echo  =FALSE,
-  message  =FALSE,
-  warning  =FALSE,
-  cache  =FALSE,
-  comment  =NA,
-  fig.path='./figures/',
-  fig.show='asis',
-  dev  ='png',
-  fig.align='center',
-  out.width  ="70%",
-  fig.width  =7,
-  fig.asp  =0.7,
-  fig.show  ="asis"
-)
+<!-- # CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 
-library(tidyverse, suppressPackageStartupMessages())
-library(schtools)
-```
-# Getting started with read QC
 
-...BRIEF INTRO IN PROGRESS...
+# <big>Mastering Microbiome Read Quality</big> {-#read-quality}
 
 <br>
-
-## Snakemake workflow for read QC
-
-```{bash ruledag, include=FALSE}
-bash workflow/scripts/rules_dag.sh
-```
-
-![](dags/rulegraph.svg)
-
-A tentative snakemake workflow that defines **read quality control rules** in a DAG (directed acyclic graph) format. 
-A detailed interactive snakemake report is available [here](https://complexdatainsights.com/imap/imap-read-quality-control/report.html). Use a wider screen to get a better interactive snakemake report.
-
-
-<!-- Main contents -->
-```{r child='workflow/scripts/00_preface_n_intro.Rmd'}
-```
-
 <br>
+![Book cover](images/read_qc.png){width=50%}
 
-<br><hr width=100%><br>
+## Welcome {-}
+Welcome to the microbiome data quality control (QC)! In this segment of our Practical User Guides series, we venture into another chapter, dedicated to the critical process of "Read Quality Control" with precision QC tools.
 
-```{r child='workflow/scripts/01_read_statistics.Rmd'}
-```
+Following the successful acquisition of sequencing reads from the Sequence Read Archive (SRA), our journey now brings us to a pivotal phase – Quality Control (QC). This chapter delves into the intricacies of ensuring the fidelity of your read data.
 
-<br>
-
-```{r child='workflow/scripts/02_quality_inspection.Rmd'}
-```
-
-<br>
-
-```{r next}
-```
-
-
-<br><hr width=100%><br>
-
-# Related work
-```{block imaprepos, echo=TRUE}
-
-| Repo | Description | Status |
-|:-----------------------|----------------------------------|--------------:|
-| [IMAP-GLIMPSE](https://github.com/datainsights/imap-project-overview/) | IMAP project overview | [In-progress](https://datainsights.github.io/imap-project-overview/) |
-| [IMAP-PART 01](https://github.com/tmbuza/imap-software-requirements/) | Software requirement for microbiome data analysis with Snakemake workflows | [In-progress](https://tmbuza.github.io/imap-software-requirements/) |
-| [IMAP-PART 02](https://github.com/tmbuza/imap-sample-metadata/) | Downloading and exploring microbiome sample metadata from SRA Database | [In-progress](https://tmbuza.github.io/imap-sample-metadata/) |
-| [IMAP-PART 03](https://github.com/tmbuza/imap-download-sra-reads/) | Downloading and filtering microbiome sequencing data from SRA database | [In-progress](https://tmbuza.github.io/imap-download-sra-reads/) |
-| [IMAP-PART 04](https://github.com/tmbuza/imap-read-quality-control/) | Quality Control of Microbiome Next Generation Sequencing Reads | [In-progress](https://tmbuza.github.io/imap-read-quality-control/) |
-| [IMAP-PART 05](https://github.com/tmbuza/imap-bioinformatics-mothur/) | Microbial profiling using MOTHUR and Snakemake workflows | [In-progress](https://tmbuza.github.io/imap-bioinformatics-mothur/) |
-| [IMAP-PART 06](https://github.com/tmbuza/imap-bioinformatics-qiime2/) | Microbial profiling using QIIME2 and Snakemake workflows | [In-progress](https://tmbuza.github.io/imap-bioinformatics-qiime2/) |
-| [IMAP-PART 07](https://github.com/tmbuza/imap-data-processing/) | Processing Output from 16S-Based microbiome bioinformatics pipelines| [In-progress](https://tmbuza.github.io/imap-data-processing/) |
-| [IMAP-PART 08](https://github.com/tmbuza/imap-exploratory-analysis/) | Exploratory Analysis of 16S-Based Microbiome Processed Data | [In-progress](https://tmbuza.github.io/imap-exploratory-analysis/) |
-| [IMAP-SUMMARY](https://github.com/tmbuza/imap-snakemake-workflows/) | Summary of snakemake workflows for microbiome data analysis | [In-progress](https://tmbuza.github.io/imap-snakemake-workflows/) |
-```
-
-## Citation
-
-> Please consider citing the iMAP article [@TMBuza2019] if you find any part of the IMAP practical user guides helpful in your microbiome data analysis.
-
-<br>
-
-# References
-::: {#refs}
-:::
-
-<br><hr width=100%><br>
-
-# Appendix {-}
-
-## Project main tree
-```{bash, include=FALSE}
-bash workflow/scripts/tree.sh
-```
-
-```{bash treeimg}
-cat results/project_tree.txt
-```
-
-<br>
-
-![](images/smkreport/screenshot.png)
-
-<br>
-
-
-## Troubleshooting of FAQs
-<ol>
-  <li>Question</li>
-    <ul>Answer</ul>
-  <li>Question</li>
-    <ul>Answer</ul>
-</ol>
-
-
-</div> <!-- end main-container -->
-
-<br><hr width=100%><br>
-
-<div id="footer">
-Last updated on `r format(Sys.time(), '%B %d, %Y')`.<br>
-Github_Repo: `r rmarkdown::metadata$github_repo`.<br>
-Repo compiled and maintained by: [`r rmarkdown::metadata$author`](mailto:`r rmarkdown::metadata$email_address`). 
-</div>
