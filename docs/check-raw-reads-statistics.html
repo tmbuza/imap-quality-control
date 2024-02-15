@@ -4,17 +4,17 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>2 Check Raw Reads | IMAP: Integrated Microbiome Analysis Pipelines</title>
+<title>2 Check Raw Reads Statistics | IMAP: Integrated Microbiome Analysis Pipelines</title>
 <meta name="author" content="Teresia Mrema-Buza">
 <meta name="description" content="Assuming that most QC tools are ready, it is time to use them to do the following: Check the quality of the reads using fastqc. Create a summary report of quality metrics using multiqc. Trim poor...">
 <meta name="generator" content="bookdown 0.37 with bs4_book()">
-<meta property="og:title" content="2 Check Raw Reads | IMAP: Integrated Microbiome Analysis Pipelines">
+<meta property="og:title" content="2 Check Raw Reads Statistics | IMAP: Integrated Microbiome Analysis Pipelines">
 <meta property="og:type" content="book">
-<meta property="og:url" content="https://tmbuza.github.io/imap-project-overview/check-raw-reads.html">
+<meta property="og:url" content="https://tmbuza.github.io/imap-project-overview/check-raw-reads-statistics.html">
 <meta property="og:image" content="https://tmbuza.github.io/imap-project-overview/images/planning.png">
 <meta property="og:description" content="Assuming that most QC tools are ready, it is time to use them to do the following: Check the quality of the reads using fastqc. Create a summary report of quality metrics using multiqc. Trim poor...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="2 Check Raw Reads | IMAP: Integrated Microbiome Analysis Pipelines">
+<meta name="twitter:title" content="2 Check Raw Reads Statistics | IMAP: Integrated Microbiome Analysis Pipelines">
 <meta name="twitter:description" content="Assuming that most QC tools are ready, it is time to use them to do the following: Check the quality of the reads using fastqc. Create a summary report of quality metrics using multiqc. Trim poor...">
 <meta name="twitter:image" content="https://tmbuza.github.io/imap-project-overview/images/planning.png">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -53,10 +53,10 @@
 <li><a class="" href="index.html">Mastering Microbiome Read Quality</a></li>
 <li><a class="" href="toos-resources.html"><span class="header-section-number">1</span> Tools, Resources, and Environments</a></li>
 <li class="book-part">READ QC</li>
-<li><a class="active" href="check-raw-reads.html"><span class="header-section-number">2</span> Check Raw Reads</a></li>
+<li><a class="active" href="check-raw-reads-statistics.html"><span class="header-section-number">2</span> Check Raw Reads Statistics</a></li>
 <li><a class="" href="trim-poor-reads.html"><span class="header-section-number">3</span> Trim Poor Reads</a></li>
-<li><a class="" href="remove-contaminated-reads.html"><span class="header-section-number">4</span> Remove contaminated reads</a></li>
-<li><a class="" href="view-processed-read-status.html"><span class="header-section-number">5</span> View processed Read Status</a></li>
+<li><a class="" href="remove-contaminated-reads.html"><span class="header-section-number">4</span> Remove Contaminated Reads</a></li>
+<li><a class="" href="view-processed-read-status.html"><span class="header-section-number">5</span> View Processed Read Status</a></li>
 </ul>
 
         <div class="book-extra">
@@ -64,9 +64,9 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="check-raw-reads" class="section level1" number="2">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="check-raw-reads-statistics" class="section level1" number="2">
 <h1>
-<span class="header-section-number">2</span> Check Raw Reads<a class="anchor" aria-label="anchor" href="#check-raw-reads"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2</span> Check Raw Reads Statistics<a class="anchor" aria-label="anchor" href="#check-raw-reads-statistics"><i class="fas fa-link"></i></a>
 </h1>
 <ul>
 <li>Assuming that most QC tools are ready, it is time to use them to do the following:
@@ -82,29 +82,29 @@
 <h2>
 <span class="header-section-number">2.1</span> Statistics of raw reads<a class="anchor" aria-label="anchor" href="#statistics-of-raw-reads"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="check-raw-reads.html#cb3-1" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb3-2"><a href="check-raw-reads.html#cb3-2" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="check-raw-reads.html#cb3-3" tabindex="-1"></a><span class="bu">echo</span> PROGRESS: Getting stats of the raw reads.</span>
-<span id="cb3-4"><a href="check-raw-reads.html#cb3-4" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="check-raw-reads.html#cb3-5" tabindex="-1"></a><span class="va">INPUTDIR</span><span class="op">=</span><span class="st">"resources/reads"</span></span>
-<span id="cb3-6"><a href="check-raw-reads.html#cb3-6" tabindex="-1"></a><span class="va">SEQKIT</span><span class="op">=</span><span class="st">"results/qc/seqkit1"</span></span>
-<span id="cb3-7"><a href="check-raw-reads.html#cb3-7" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="check-raw-reads.html#cb3-8" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> <span class="st">"</span><span class="va">${SEQKIT}</span><span class="st">"</span></span>
-<span id="cb3-9"><a href="check-raw-reads.html#cb3-9" tabindex="-1"></a><span class="ex">seqkit</span> stat <span class="st">"</span><span class="va">${INPUTDIR}</span><span class="st">"</span>/<span class="pp">*</span>.fastq.gz <span class="op">&gt;</span><span class="st">"</span><span class="va">${SEQKIT}</span><span class="st">"</span>/seqkit_stats.txt</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="check-raw-reads-statistics.html#cb3-1" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb3-2"><a href="check-raw-reads-statistics.html#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="check-raw-reads-statistics.html#cb3-3" tabindex="-1"></a><span class="bu">echo</span> PROGRESS: Getting stats of the raw reads.</span>
+<span id="cb3-4"><a href="check-raw-reads-statistics.html#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="check-raw-reads-statistics.html#cb3-5" tabindex="-1"></a><span class="va">INPUTDIR</span><span class="op">=</span><span class="st">"resources/reads"</span></span>
+<span id="cb3-6"><a href="check-raw-reads-statistics.html#cb3-6" tabindex="-1"></a><span class="va">SEQKIT</span><span class="op">=</span><span class="st">"results/qc/seqkit1"</span></span>
+<span id="cb3-7"><a href="check-raw-reads-statistics.html#cb3-7" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="check-raw-reads-statistics.html#cb3-8" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> <span class="st">"</span><span class="va">${SEQKIT}</span><span class="st">"</span></span>
+<span id="cb3-9"><a href="check-raw-reads-statistics.html#cb3-9" tabindex="-1"></a><span class="ex">seqkit</span> stat <span class="st">"</span><span class="va">${INPUTDIR}</span><span class="st">"</span>/<span class="pp">*</span>.fastq.gz <span class="op">&gt;</span><span class="st">"</span><span class="va">${SEQKIT}</span><span class="st">"</span>/seqkit_stats.txt</span></code></pre></div>
 </div>
 <div id="fastqc-on-raw-reads" class="section level2" number="2.2">
 <h2>
 <span class="header-section-number">2.2</span> FastQC on raw reads<a class="anchor" aria-label="anchor" href="#fastqc-on-raw-reads"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="check-raw-reads.html#cb4-1" tabindex="-1"></a></span>
-<span id="cb4-2"><a href="check-raw-reads.html#cb4-2" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb4-3"><a href="check-raw-reads.html#cb4-3" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="check-raw-reads.html#cb4-4" tabindex="-1"></a><span class="bu">echo</span> PROGRESS: FastQC <span class="at">-</span> Getting quality scores of raw reads.</span>
-<span id="cb4-5"><a href="check-raw-reads.html#cb4-5" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="check-raw-reads.html#cb4-6" tabindex="-1"></a><span class="va">INPUTDIR</span><span class="op">=</span><span class="st">"resources/reads"</span></span>
-<span id="cb4-7"><a href="check-raw-reads.html#cb4-7" tabindex="-1"></a><span class="va">FASTQC</span><span class="op">=</span><span class="st">"results/qc/fastqc1"</span></span>
-<span id="cb4-8"><a href="check-raw-reads.html#cb4-8" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> <span class="st">"</span><span class="va">${FASTQC}</span><span class="st">"</span></span>
-<span id="cb4-9"><a href="check-raw-reads.html#cb4-9" tabindex="-1"></a><span class="ex">fastqc</span> <span class="st">"</span><span class="va">${INPUTDIR}</span><span class="st">"</span>/<span class="pp">*</span>.fastq.gz <span class="at">-o</span> <span class="st">"</span><span class="va">${FASTQC}</span><span class="st">"</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="check-raw-reads-statistics.html#cb4-1" tabindex="-1"></a></span>
+<span id="cb4-2"><a href="check-raw-reads-statistics.html#cb4-2" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb4-3"><a href="check-raw-reads-statistics.html#cb4-3" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="check-raw-reads-statistics.html#cb4-4" tabindex="-1"></a><span class="bu">echo</span> PROGRESS: FastQC <span class="at">-</span> Getting quality scores of raw reads.</span>
+<span id="cb4-5"><a href="check-raw-reads-statistics.html#cb4-5" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="check-raw-reads-statistics.html#cb4-6" tabindex="-1"></a><span class="va">INPUTDIR</span><span class="op">=</span><span class="st">"resources/reads"</span></span>
+<span id="cb4-7"><a href="check-raw-reads-statistics.html#cb4-7" tabindex="-1"></a><span class="va">FASTQC</span><span class="op">=</span><span class="st">"results/qc/fastqc1"</span></span>
+<span id="cb4-8"><a href="check-raw-reads-statistics.html#cb4-8" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> <span class="st">"</span><span class="va">${FASTQC}</span><span class="st">"</span></span>
+<span id="cb4-9"><a href="check-raw-reads-statistics.html#cb4-9" tabindex="-1"></a><span class="ex">fastqc</span> <span class="st">"</span><span class="va">${INPUTDIR}</span><span class="st">"</span>/<span class="pp">*</span>.fastq.gz <span class="at">-o</span> <span class="st">"</span><span class="va">${FASTQC}</span><span class="st">"</span></span></code></pre></div>
 <div class="inline-figure"><img src="results/qc/multiqc1/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg"></div>
 </div>
 </div>
@@ -114,7 +114,7 @@
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#check-raw-reads"><span class="header-section-number">2</span> Check Raw Reads</a></li>
+<li><a class="nav-link" href="#check-raw-reads-statistics"><span class="header-section-number">2</span> Check Raw Reads Statistics</a></li>
 <li><a class="nav-link" href="#statistics-of-raw-reads"><span class="header-section-number">2.1</span> Statistics of raw reads</a></li>
 <li><a class="nav-link" href="#fastqc-on-raw-reads"><span class="header-section-number">2.2</span> FastQC on raw reads</a></li>
 </ul>

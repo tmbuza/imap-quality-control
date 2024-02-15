@@ -17,3 +17,6 @@ for i in `ls -1 *_1.fastq.gz | sed 's/_1.fastq.gz//'`
     hdist=1 \
     overwrite=True
   done
+
+
+

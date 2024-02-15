@@ -1,6 +1,6 @@
 # (PART) READ QC {-}
 
-# Check Raw Reads
+# Check Raw Reads Statistics
 - Assuming that most QC tools are ready, it is time to use them to do the following:
   - Check the quality of the reads using `fastqc`.
   - Create a summary report of quality metrics using `multiqc`.
@@ -95,7 +95,7 @@ seqkit stat "${INPUTDIR}"/*.fastq.gz >"${SEQKIT}"/seqkit_stats.txt
 ![](results/qc/multiqc2/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg)
 
 
-# Remove contaminated reads
+# Remove Contaminated Reads
 
 ## BBDuk read decontamination
 ```bash
@@ -154,8 +154,7 @@ seqkit stat "${INPUTDIR}"/*.fastq.gz >"${SEQKIT}"/seqkit_stats.txt
 ![](results/qc/multiqc3/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg)
 
 
-
-## View processed read status
+# View Processed Read Status
 
 
 ```r

@@ -4,17 +4,17 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>4 Remove contaminated reads | IMAP: Integrated Microbiome Analysis Pipelines</title>
+<title>4 Remove Contaminated Reads | IMAP: Integrated Microbiome Analysis Pipelines</title>
 <meta name="author" content="Teresia Mrema-Buza">
 <meta name="description" content="4.1 BBDuk read decontamination #!/bin/bash echo PROGRESS: Read decontamination cd resources/reads/trimmed for i in `ls -1 *_1.fastq.gz | sed 's/_1.fastq.gz//'`  do  bbduk.sh -Xmx3g \  ...">
 <meta name="generator" content="bookdown 0.37 with bs4_book()">
-<meta property="og:title" content="4 Remove contaminated reads | IMAP: Integrated Microbiome Analysis Pipelines">
+<meta property="og:title" content="4 Remove Contaminated Reads | IMAP: Integrated Microbiome Analysis Pipelines">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://tmbuza.github.io/imap-project-overview/remove-contaminated-reads.html">
 <meta property="og:image" content="https://tmbuza.github.io/imap-project-overview/images/planning.png">
 <meta property="og:description" content="4.1 BBDuk read decontamination #!/bin/bash echo PROGRESS: Read decontamination cd resources/reads/trimmed for i in `ls -1 *_1.fastq.gz | sed 's/_1.fastq.gz//'`  do  bbduk.sh -Xmx3g \  ...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="4 Remove contaminated reads | IMAP: Integrated Microbiome Analysis Pipelines">
+<meta name="twitter:title" content="4 Remove Contaminated Reads | IMAP: Integrated Microbiome Analysis Pipelines">
 <meta name="twitter:description" content="4.1 BBDuk read decontamination #!/bin/bash echo PROGRESS: Read decontamination cd resources/reads/trimmed for i in `ls -1 *_1.fastq.gz | sed 's/_1.fastq.gz//'`  do  bbduk.sh -Xmx3g \  ...">
 <meta name="twitter:image" content="https://tmbuza.github.io/imap-project-overview/images/planning.png">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -53,9 +53,10 @@
 <li><a class="" href="index.html">Mastering Microbiome Read Quality</a></li>
 <li><a class="" href="toos-resources.html"><span class="header-section-number">1</span> Tools, Resources, and Environments</a></li>
 <li class="book-part">READ QC</li>
-<li><a class="" href="check-raw-reads.html"><span class="header-section-number">2</span> Check Raw Reads</a></li>
+<li><a class="" href="check-raw-reads-statistics.html"><span class="header-section-number">2</span> Check Raw Reads Statistics</a></li>
 <li><a class="" href="trim-poor-reads.html"><span class="header-section-number">3</span> Trim Poor Reads</a></li>
-<li><a class="active" href="remove-contaminated-reads.html"><span class="header-section-number">4</span> Remove contaminated reads</a></li>
+<li><a class="active" href="remove-contaminated-reads.html"><span class="header-section-number">4</span> Remove Contaminated Reads</a></li>
+<li><a class="" href="view-processed-read-status.html"><span class="header-section-number">5</span> View Processed Read Status</a></li>
 </ul>
 
         <div class="book-extra">
@@ -65,7 +66,7 @@
 </div>
   </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="remove-contaminated-reads" class="section level1" number="4">
 <h1>
-<span class="header-section-number">4</span> Remove contaminated reads<a class="anchor" aria-label="anchor" href="#remove-contaminated-reads"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4</span> Remove Contaminated Reads<a class="anchor" aria-label="anchor" href="#remove-contaminated-reads"><i class="fas fa-link"></i></a>
 </h1>
 <div id="bbduk-read-decontamination" class="section level2" number="4.1">
 <h2>
@@ -119,72 +120,17 @@
 <span id="cb10-8"><a href="remove-contaminated-reads.html#cb10-8" tabindex="-1"></a><span class="ex">seqkit</span> stat <span class="st">"</span><span class="va">${INPUTDIR}</span><span class="st">"</span>/<span class="pp">*</span>.fastq.gz <span class="op">&gt;</span><span class="st">"</span><span class="va">${SEQKIT}</span><span class="st">"</span>/seqkit_stats.txt</span></code></pre></div>
 <div class="inline-figure"><img src="results/qc/multiqc3/multiqc_plots/svg/mqc_fastqc_per_base_sequence_quality_plot_1.svg"></div>
 </div>
-<div id="view-processed-read-status" class="section level2" number="4.4">
-<h2>
-<span class="header-section-number">4.4</span> View processed read status<a class="anchor" aria-label="anchor" href="#view-processed-read-status"><i class="fas fa-link"></i></a>
-</h2>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"workflow/scripts/common.R"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span>, <span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://wilkelab.org/ggtext/">ggtext</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">stats1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_table.html">read_table</a></span><span class="op">(</span><span class="st">"results/qc/seqkit1/seqkit_stats.txt"</span>, show_col_types <span class="op">=</span> <span class="cn">F</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span><span class="va">file</span>, <span class="st">".*/"</span>, <span class="st">""</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span><span class="va">file</span>, <span class="st">".fastq.gz"</span>, <span class="st">""</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">file</span>, rawreads <span class="op">=</span> <span class="va">num_seqs</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">stats2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_table.html">read_table</a></span><span class="op">(</span><span class="st">"results/qc/seqkit2/seqkit_stats.txt"</span>, show_col_types <span class="op">=</span> <span class="cn">F</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span><span class="va">file</span>, <span class="st">".*/"</span>, <span class="st">""</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span><span class="va">file</span>, <span class="st">".fastq.gz"</span>, <span class="st">""</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">file</span>, trimmed <span class="op">=</span> <span class="va">num_seqs</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">stats3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_table.html">read_table</a></span><span class="op">(</span><span class="st">"results/qc/seqkit3/seqkit_stats.txt"</span>, show_col_types <span class="op">=</span> <span class="cn">F</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span><span class="va">file</span>, <span class="st">".*/"</span>, <span class="st">""</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span><span class="va">file</span>, <span class="st">".fastq.gz"</span>, <span class="st">""</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">file</span>, decontam <span class="op">=</span> <span class="va">num_seqs</span><span class="op">)</span> </span>
-<span></span>
-<span><span class="va">stats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">stats1</span>, <span class="va">stats2</span>, by <span class="op">=</span> <span class="st">"file"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">.</span>, <span class="va">stats3</span>, by <span class="op">=</span> <span class="st">"file"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="op">-</span><span class="va">file</span>, names_to <span class="op">=</span> <span class="st">"variable"</span>, values_to <span class="op">=</span> <span class="st">"count"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>variable <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">variable</span>, </span>
-<span>         levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"rawreads"</span>, <span class="st">"trimmed"</span>, <span class="st">"decontam"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> </span>
-<span></span>
-<span><span class="va">stats</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_inorder.html">fct_inorder</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">count</span><span class="op">/</span><span class="fl">1E3</span>, fill <span class="op">=</span> <span class="va">variable</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>  </span>
-<span>  <span class="fu">theme_cdi</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"dodge"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Sample"</span>, y <span class="op">=</span> <span class="st">"Number of Reads (X1000)"</span>, fill <span class="op">=</span> <span class="st">"Color Code"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.02</span>, <span class="fl">0.0</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave</a></span><span class="op">(</span>file<span class="op">=</span><span class="st">"images/samples_hist.png"</span>, width<span class="op">=</span><span class="fl">10</span>, height<span class="op">=</span><span class="fl">10</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave</a></span><span class="op">(</span>file<span class="op">=</span><span class="st">"images/samples_hist.svg"</span>, width<span class="op">=</span><span class="fl">10</span>, height<span class="op">=</span><span class="fl">10</span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="va">stats</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_inorder.html">fct_inorder</a></span><span class="op">(</span><span class="va">variable</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">count</span><span class="op">/</span><span class="fl">1E3</span>, fill <span class="op">=</span> <span class="va">variable</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>  </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"dodge"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Processed Read"</span>, y <span class="op">=</span> <span class="st">"Number of Reads (X1000)"</span>, fill <span class="op">=</span> <span class="st">"Color Code"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.02</span>, <span class="fl">0.0</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave</a></span><span class="op">(</span>file<span class="op">=</span><span class="st">"images/qc_hist.png"</span>, width<span class="op">=</span><span class="fl">10</span>, height<span class="op">=</span><span class="fl">10</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave</a></span><span class="op">(</span>file<span class="op">=</span><span class="st">"images/qc_hist.svg"</span>, width<span class="op">=</span><span class="fl">10</span>, height<span class="op">=</span><span class="fl">10</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="images/qc_hist.svg"></div>
-
-</div>
 </div>
   <div class="chapter-nav">
 <div class="prev"><a href="trim-poor-reads.html"><span class="header-section-number">3</span> Trim Poor Reads</a></div>
-<div class="empty"></div>
+<div class="next"><a href="view-processed-read-status.html"><span class="header-section-number">5</span> View Processed Read Status</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#remove-contaminated-reads"><span class="header-section-number">4</span> Remove contaminated reads</a></li>
+<li><a class="nav-link" href="#remove-contaminated-reads"><span class="header-section-number">4</span> Remove Contaminated Reads</a></li>
 <li><a class="nav-link" href="#bbduk-read-decontamination"><span class="header-section-number">4.1</span> BBDuk read decontamination</a></li>
 <li><a class="nav-link" href="#fastqc-on-decontaminated-reads"><span class="header-section-number">4.2</span> FastQC on decontaminated reads</a></li>
 <li><a class="nav-link" href="#seqkit-on-decontaminated-reads"><span class="header-section-number">4.3</span> Seqkit on decontaminated reads</a></li>
-<li><a class="nav-link" href="#view-processed-read-status"><span class="header-section-number">4.4</span> View processed read status</a></li>
 </ul>
 
       <div class="book-extra">

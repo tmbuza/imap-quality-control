@@ -3,7 +3,7 @@ essential-read-qc-tools
 required-qc-resources
 basic-yaml-file-for-read-qc-environment.yml
 conda-environment
-check-raw-reads
+check-raw-reads-statistics
 statistics-of-raw-reads
 fastqc-on-raw-reads
 trim-poor-reads
